@@ -1,0 +1,22 @@
+{
+  "name": "discord-lily",
+  "version": "0.1.0",
+  "description": "\u0016\u0016A Discord Bot for rendering LilyPond scores",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nitrofski/discord-lily.git"
+  },
+  "author": "Nitrofski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nitrofski/discord-lily/issues"
+  },
+  "homepage": "https://github.com/Nitrofski/discord-lily#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
