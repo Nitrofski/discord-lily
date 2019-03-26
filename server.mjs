@@ -15,8 +15,7 @@ discordClient.on('message', async msg => {
 
     try {
       const image = await Pond.fish(msg.content.substr('\\lily'.length))
-      await msg.reply({ file: { attachment: image } })
-      // await msg.channel.send({ file: { attachment: image } }) // Removes @author...
+      await msg.channel.send({ file: { attachment: image } }) // Removes @author...
       // await reply.react('🗑')
       await msg.react('🌺')
     } catch (e) {
