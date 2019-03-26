@@ -61,4 +61,4 @@ typings/
 .next
 
 # Private settings file.
-settings.js
+settings.mjs
