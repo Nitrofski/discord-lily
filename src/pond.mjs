@@ -14,14 +14,14 @@ const _createInputData = data => {
     data =
       '\\version "2.18.2"\n' +
       '\\paper{\n' +
-      '  indent=#0\n' +
-      '  line-width=120\\mm\n' +
       '  oddFooterMarkup=##f\n' +
       '  oddHeaderMarkup=##f\n' +
       '  bookTitleMarkup = ##f\n' +
       '  scoreTitleMarkup = ##f\n' +
       '}\n' +
       '\\layout {\n' +
+      '  indent=#0\n' +
+      '  line-width=100\\mm\n' +
       '  \\context { \\Staff \\numericTimeSignature }\n' +
       '}\n\n' +
       data
@@ -33,7 +33,6 @@ export default {
   fish: async data => {
     try {
       const tmp = await fsp.mkdtemp(path.join(tmpdir(), 'lily-'))
-      console.log(`Tmp dir: ${tmp}`)
       await fsp.writeFile(path.join(tmp, 'in.ly'), _createInputData(data))
 
       // Lilypond has a "jail" mode, which would be very useful for security on an actual server.
