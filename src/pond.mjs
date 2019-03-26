@@ -14,15 +14,23 @@ const _createInputData = data => {
     data =
       '\\version "2.18.2"\n' +
       '\\paper{\n' +
-      '  oddFooterMarkup=##f\n' +
-      '  oddHeaderMarkup=##f\n' +
-      '  bookTitleMarkup = ##f\n' +
-      '  scoreTitleMarkup = ##f\n' +
+      '  oddHeaderMarkup  = ##f\n' +
+      '  evenHeaderMarkup = ##f\n' +
+      '  oddFooterMarkup  = ##f\n' +
+      '  evenFooterMarkup = ##f\n' +
       '}\n' +
       '\\layout {\n' +
-      '  indent=#0\n' +
-      '  line-width=100\\mm\n' +
-      '  \\context { \\Staff \\numericTimeSignature }\n' +
+      '  line-width  = 600\\pt\n' +
+      '  indent      = #0\n' +
+      '  ragged-last = ##t\n' +
+      '  \\context {\n' +
+      '    \\Score\n' +
+      '    \\omit BarNumber\n' +
+      '  }\n' +
+      '  \\context {\n' +
+      '    \\Staff\n' +
+      '    \\numericTimeSignature\n' +
+      '  }\n' +
       '}\n\n' +
       data
   }
@@ -37,12 +45,12 @@ export default {
 
       // Lilypond has a "jail" mode, which would be very useful for security on an actual server.
       await execFile(Settings.lilypondPath,
-        ['-dbackend=eps', '-dno-gs-load-fonts', '-dinclude-eps-fonts', '--png', '--output=out', path.join(tmp, 'in.ly')],
+        ['-dbackend=eps', '-dno-gs-load-fonts', '-dinclude-eps-fonts', '--png', '-dresolution=240', '--output=out', path.join(tmp, 'in.ly')],
         { cwd: tmp })
 
-      // Clean up after ourselves. Load the image in memory, then delete it immediately.
+      // Clean up after ourselves. Load the image in memory, then delete the temp dir immediately.
       const image = fsp.readFile(path.join(tmp, 'out.png'))
-      fsp.rmdir(tmp)
+      // await fsp.rmdir(tmp)
 
       return image
     } catch (e) {
