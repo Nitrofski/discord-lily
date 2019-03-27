@@ -1,11 +1,10 @@
 import Settings from './../settings.mjs'
 import util from 'util'
 import childProcess from 'child_process'
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 import { tmpdir } from 'os'
 
-const fsp = fs.promises
 const execFile = util.promisify(childProcess.execFile)
 
 const _createInputData = data => {
@@ -20,7 +19,7 @@ const _createInputData = data => {
       '  evenFooterMarkup = ##f\n' +
       '}\n' +
       '\\layout {\n' +
-      '  line-width  = 600\\pt\n' +
+      '  line-width  = 400\\pt\n' +
       '  indent      = #0\n' +
       '  ragged-last = ##t\n' +
       '  \\context {\n' +
@@ -39,23 +38,27 @@ const _createInputData = data => {
 
 export default {
   fish: async data => {
+    let tmp
     try {
-      const tmp = await fsp.mkdtemp(path.join(tmpdir(), 'lily-'))
-      await fsp.writeFile(path.join(tmp, 'in.ly'), _createInputData(data))
+      tmp = await fs.mkdtemp(path.join(tmpdir(), 'lily-'))
+      await fs.writeFile(path.join(tmp, 'in.ly'), _createInputData(data))
 
       // Lilypond has a "jail" mode, which would be very useful for security on an actual server.
       await execFile(Settings.lilypondPath,
         ['-dbackend=eps', '-dno-gs-load-fonts', '-dinclude-eps-fonts', '--png', '-dresolution=240', '--output=out', path.join(tmp, 'in.ly')],
         { cwd: tmp })
 
-      // Clean up after ourselves. Load the image in memory, then delete the temp dir immediately.
-      const image = fsp.readFile(path.join(tmp, 'out.png'))
-      // await fsp.rmdir(tmp)
+      const pngFile = path.join(tmp, 'out.png')
+      if (!await fs.exists(pngFile)) {
+        throw new Error('The given input generated no output.')
+      }
 
-      return image
-    } catch (e) {
-      console.error(e)
-      throw e
+      // Clean up after ourselves. Load the image in memory, then delete the temp dir immediately.
+      return await fs.readFile(pngFile)
+    } finally {
+      if (tmp) {
+        await fs.remove(tmp)
+      }
     }
   }
 }

@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/Nitrofski/discord-lily#readme",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "fs-extra": "^7.0.1"
   },
   "devDependencies": {
     "eslint": "^5.15.3",
