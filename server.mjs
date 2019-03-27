@@ -3,8 +3,8 @@ import Pond from './src/pond.mjs'
 import Settings from './settings.mjs'
 
 const discordClient = new Discord.Client({
-  messageCacheLifetime: 15, // Only keep watching messages for 10 minutes
-  messageSweepInterval: 5 // Cleanup cache every minute
+  messageCacheLifetime: 600, // Only keep watching messages for 10 minutes
+  messageSweepInterval: 60 // Cleanup cache every minute
 })
 
 discordClient.on('ready', () => {
