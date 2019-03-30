@@ -1,10 +1,13 @@
-FROM node:11
-WORKDIR /usr/src/discord-lily
+FROM node:11-slim
 
-ADD http://lilypond.org/download/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh ./
-RUN sh lilypond-2.18.2-1.linux-64.sh --batch
+RUN apt-get update && apt-get install -y bzip2
 
-# TODO: Setup lilypond JAIL account and directory and stuff.
+RUN cd /tmp \
+  && (wget -q http://lilypond.org/download/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh \
+    && sh lilypond-2.18.2-1.linux-64.sh --batch \
+    && rm lilypond-2.18.2-1.linux-64.sh)
+
+WORKDIR /usr/local/src/discord-lily
 
 # Install application dependencies
 COPY package*.json ./
