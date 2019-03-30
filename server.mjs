@@ -11,6 +11,17 @@ discordClient.on('ready', () => {
   console.log(`Logged in as ${discordClient.user.tag}!`)
 })
 
+const _processCodeBlocks = async (msg, regex) => {
+  let match
+  let matched = false
+  while ((match = regex.exec(msg.content)) !== null) {
+    await _processLilyInput(msg, match.groups.data)
+    matched = true
+  }
+
+  return matched
+}
+
 const _processLilyInput = async (msg, data) => {
   console.log(`Received Lily request from @${msg.author.tag}`)
   msg.channel.startTyping()
@@ -25,7 +36,13 @@ const _processLilyInput = async (msg, data) => {
     await msg.react('🌺')
   } catch (e) {
     console.error(e)
-    await msg.reply(`there was an error when parsing the input:\`\`\`\n${e.message}\`\`\``)
+    let reply = `<@${msg.author.id}>, there was an error when parsing the input:\`\`\`\n${
+      e.message.replace(/```/g, '<triple-backtick>')}\`\`\``
+    if (reply.length > 2000) {
+      let ellipsis = '[...]'
+      reply = reply.substring(0, reply.lastIndexOf('\n', 1997 - ellipsis.length)) + ellipsis + '```'
+    }
+    await msg.channel.send(reply)
   } finally {
     msg.channel.stopTyping()
   }
@@ -33,13 +50,14 @@ const _processLilyInput = async (msg, data) => {
 
 discordClient.on('message', async msg => {
   if (msg.content.startsWith('\\lily')) {
-    return _processLilyInput(msg, msg.content.substr('\\lily'.length))
-  } else {
-    const regex = /```lily\n(?<data>.+?)\n*```/gms
-    let match
-    while ((match = regex.exec(msg.content)) !== null) {
-      await _processLilyInput(msg, match.groups.data)
+    // First, look for code blocks
+    const matched = await _processCodeBlocks(msg, /```(\w+\n)?\n*(?<data>.+?)\n*```/gms)
+    // If no code blocks was found, treat the whole message as lily input.
+    if (!matched) {
+      return _processLilyInput(msg, msg.content.substr('\\lily'.length))
     }
+  } else {
+    return _processCodeBlocks(msg, /```lily\n+(?<data>.+?)\n*```/gms)
   }
 })
 

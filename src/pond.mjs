@@ -45,7 +45,7 @@ export default {
 
       // Lilypond has a "jail" mode, which would be very useful for security on an actual server.
       await execFile(Settings.lilypondPath,
-        ['-dbackend=eps', '-dno-gs-load-fonts', '-dinclude-eps-fonts', '--png', '-dresolution=240', '--output=out', path.join(tmp, 'in.ly')],
+        ['-dbackend=eps', '-dno-gs-load-fonts', '-dinclude-eps-fonts', '--png', '-dresolution=300', '--output=out', path.join(tmp, 'in.ly')],
         { cwd: tmp })
 
       const pngFile = path.join(tmp, 'out.png')
