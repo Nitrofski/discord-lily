@@ -5,7 +5,7 @@
   "main": "server.mjs",
   "scripts": {
     "start": "node --experimental-modules server.mjs",
-    "build": "docker build -t=nitrofski:lily .",
+    "build": "docker build -t=nitrofski/lily .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
