@@ -16,44 +16,34 @@ discordClient.on('ready', () => {
  * @param regex {RegExp}
  */
 async function _processCodeBlocks (msg, regex) {
-  let typing = false
-  let attachments = []
-  for (let i = 0, match; (match = regex.exec(msg.content)) !== null; ++i) {
-    if (i === 0) {
-      typing = true
-      msg.channel.startTyping()
-    }
-
-    console.log(`Processing Lily request from @${msg.author.tag}`)
-    const image = await _processLilyInput(msg, match.groups.data)
-    if (image) {
-      attachments.push(new Discord.Attachment(image, `lily${(i + 1).toString().padStart(2, '0')}.png`))
-    }
-  }
-
+  let foundLilyInput = false
+  let allSuccess = true
   try {
-    if (attachments.length !== 0) {
-      if (attachments.length === 1) {
-        await msg.channel.send(new Discord.RichEmbed()
-          .attachFile(attachments[0])
-          .setImage('attachment://lily01.png')
-          .setColor([100, 125, 100]))
-      } else {
-        await msg.channel.send({ files: attachments })
+    for (let match; (match = regex.exec(msg.content)) !== null;) {
+      if (!foundLilyInput) {
+        foundLilyInput = true
+        msg.channel.startTyping()
       }
-      await msg.react('🌺')
-      return true
+
+      console.log(`Processing Lily request from @${msg.author.tag}`)
+      if (!await _processLilyInput(msg, match.groups.data)) {
+        allSuccess = false
+      }
     }
+
+    if (foundLilyInput && allSuccess) {
+      await msg.react('🌺')
+    }
+
+    return foundLilyInput
   } catch (e) {
     await msg.reply('Fatal error when sending reply...')
     console.error(e)
   } finally {
-    if (typing) {
+    if (foundLilyInput) {
       msg.channel.stopTyping()
     }
   }
-
-  return false
 }
 
 /**
@@ -64,12 +54,7 @@ async function _processAsSingleInput (msg, data) {
   try {
     msg.channel.startTyping()
     console.log(`Processing Lily request from @${msg.author.tag}`)
-    const image = await _processLilyInput(msg, data)
-    if (image) {
-      await msg.channel.send(new Discord.RichEmbed()
-        .attachFile({ attachment: image, name: 'lily.png' })
-        .setImage('attachment://lily.png')
-        .setColor([100, 125, 100]))
+    if (await _processLilyInput(msg, data)) {
       await msg.react('🌺')
     }
     msg.channel.stopTyping()
@@ -87,10 +72,14 @@ async function _processAsSingleInput (msg, data) {
  */
 async function _processLilyInput (msg, data) {
   try {
-    return await Pond.fish(data)
+    const image = await Pond.fish(data)
+    await msg.channel.send(new Discord.RichEmbed()
+      .attachFile({ attachment: image, name: 'lily.png' })
+      .setImage('attachment://lily.png')
+      .setColor([100, 125, 100]))
+    return true
     // await reply.react('🗑')
   } catch (e) {
-    console.error(e)
     let reply = `<@${msg.author.id}>, LilyPond could not parse your input:\`\`\`\n${
       e.message.replace(/```/g, '<triple-backtick>')}\`\`\``
     if (reply.length > 2000) {
@@ -98,6 +87,7 @@ async function _processLilyInput (msg, data) {
       reply = reply.substring(0, reply.lastIndexOf('\n', 1997 - ellipsis.length)) + ellipsis + '```'
     }
     await msg.channel.send(reply)
+    return false
   }
 }
 
@@ -114,13 +104,13 @@ discordClient.on('message', async msg => {
   }
 })
 
-discordClient.on('messageDelete', msg => {
-  console.log(msg.content)
-})
+// discordClient.on('messageDelete', msg => {
+//   console.log(msg.content)
+// })
 
-discordClient.on('messageUpdate', (oldMsg, newMsg) => {
-  console.log(newMsg.content)
-})
+// discordClient.on('messageUpdate', (oldMsg, newMsg) => {
+//   console.log(newMsg.content)
+// })
 
 discordClient.login(Settings.token).catch(reason => {
   console.log(reason)
