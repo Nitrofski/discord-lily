@@ -62,7 +62,8 @@ function _sanitizeLilypondLog (stderr, inputFilename, addedLinesCount) {
     }
   }
 
-  return lines.join(EOL)
+  // Join all lines and add a final newline.
+  return lines.join(EOL) + EOL
 }
 
 export default {

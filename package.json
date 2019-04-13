@@ -21,6 +21,7 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "fs-extra": "^7.0.1",
+    "imgur-uploader": "^4.2.1",
     "lodash.escaperegexp": "^4.1.2"
   },
   "devDependencies": {
