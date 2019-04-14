@@ -1,6 +1,6 @@
-# LilyPond 101
+# Introduction
 
-### What is LilyPond?
+## What is LilyPond?
 
 LilyPond is a highly sophisticated music engraver that uses plain text input to produce music scores. It's like LaTeX for music.
 ```
@@ -13,15 +13,17 @@ LilyPond is a highly sophisticated music engraver that uses plain text input to 
 ```
 ![](https://cdn.discordapp.com/attachments/559837241170460692/566712878606974998/lily.png)
 
-### What is Lily?
+## What is Lily?
 
 Lily is a simple yet powerful Discord bot for producing neat musical snippets in LilyPond without having to worry about details like version commands or page formatting. Input LilyPond syntax and it just works.
 
-### This guide
+## Who is this guide for?
 
-This guide is tailored to new users of LilyPond and users of the Lily Discord bot. Although thorough, it doesn't cover everything, particularly as far as specialist instrument notation is concerned, and topics such as page formatting, styles and tweaks are ignored. For help with anything specific, Google and the LilyPond documentation are your best friends.ma
+This guide is tailored to new users of LilyPond and users of the Lily Discord bot. Although thorough, it doesn't cover everything, particularly as far as specialist instrument notation is concerned, and topics such as page formatting, styles and tweaks are ignored. For help with anything specific, Google and the LilyPond documentation are your best friends.
 
-### Basic syntax
+# The guide
+
+## Basic syntax
 
 Every piece of LilyPond input must have `{` curly braces `}` placed around the input. These braces tell LilyPond that the input is a single music *expression*, just like parentheses () in mathematics. The braces should be surrounded by a space unless they are at the beginning or end of a line to avoid ambiguities.
 ```
@@ -46,7 +48,7 @@ LilyPond supports comments. Anything after a `%` is ignored until the next newli
 { c d e d e a b c }
 ```
 
-### Absolute and relative input
+## Absolute and relative input
 
 By default, LilyPond uses *absolute* note input, where the note names `c` to `b` are engraved in the octave below middle C.
 ```
@@ -84,7 +86,7 @@ A more complicated example:
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566392306094047253/lily.png)  
 
-### Accidentals
+## Accidentals
 
 Sharps and flats are indicated by `is` and `es` respectively.
 ```
@@ -92,7 +94,7 @@ Sharps and flats are indicated by `is` and `es` respectively.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566699464828649512/lily.png)  
 
-Accidentals must be specified for every note; F♮ is always written `f` and F♯ always as `fis`. (If you're wondering why, think about it this way: the user indicates the *semantic* content of the music, and LilyPond handles the display of accidentals automatically based on previous notes and the key signature.)
+Accidentals must be specified for every note; F-natural is always written `f` and F-sharp always as `fis`. (If you're wondering why, think about it this way: the user indicates the *semantic* content of the music, and LilyPond handles the display of accidentals automatically based on previous notes and the key signature.)
 ```
 \relative { f' f fis fis fis f f fis }
 ```
@@ -110,7 +112,7 @@ To force accidentals to be displayed, use `!` or `?`. (Although it's better just
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566704385091174410/lily.png)  
 
-### Note durations
+## Note durations
 
 Quarter notes are indicated by a `4`, eighth notes by an `8` and so on. Breves have their own command.
 ```
@@ -136,7 +138,7 @@ Ties are written with a `~` after the note.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566639608067129346/lily.png)  
 
-### Tuplets and grace notes
+## Tuplets and grace notes
 
 Triplets and other tuplets can be entered using the syntax `\tuplet %fraction% { %music% }`.
 ```
@@ -157,7 +159,7 @@ Grace notes are indicated using the `\grace` command. Connoisseurs can choose fr
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566654574434320385/lily.png)  
 
-### Time signatures
+## Time signatures
 
 Time signatures are indicated with the `\time %fraction%` syntax. By default, LilyPond uses `4/4`.
 ```
@@ -177,7 +179,7 @@ Irregular beat grouping can be indicated with the following syntax:
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566632824350965760/lily.png)  
 
-### Key signatures
+## Key signatures
 
 Key signatures are indicated with the `\key %note% \%key%` syntax. By default, LilyPond uses C major.
 ```
@@ -191,7 +193,7 @@ Modes can also be used as keys.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566634504748531712/lily.png)
 
-### Clefs  
+## Clefs  
 
 Clefs are indicated with the `\clef %clefname%` syntax. The clef names can optionally be surrounded by `"`s. By default, LilyPond uses treble clef.
 ```
@@ -207,7 +209,7 @@ Octave clefs can be specified. Because of the `_` and `^` symbols used, `"`s aro
 
 A list of clef styles can be found [here](http://lilypond.org/doc/v2.19/Documentation/notation/clef-styles).
 
-### Rests
+## Rests
 
 Rests are indicated by an `r`. *Spacer* rests indicated by an `s` are invisible.
 ```
@@ -221,7 +223,7 @@ Use a capital `R` to enter full bar rests. It's usually easiest to write `R1*tim
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566580763617656843/lily.png)  
 
-### Slurs
+## Slurs
 
 Slurs are indicated with `()`s. Don't forget to close any slurs you open.
 ```
@@ -235,7 +237,7 @@ Slurs cannot be nested, although *phrasing slurs* `\(` `\)` can be used to provi
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566581120796327938/lily.png)  
 
-### Dynamics and articulation
+## Dynamics and articulation
 
 Most articulation and dynamics use the `note\%indication%` syntax. All dynamics are attached to notes.
 Dynamics are given with indications like `\mp` and `\ff`:
@@ -272,7 +274,7 @@ Articulations and ornamentation are given with indications like `\accent` and `\
 
 A full list of articulations and ornaments can be found [here](http://lilypond.org/doc/v2.18/Documentation/notation/list-of-articulations).
 
-### Chords
+## Chords
 
 A chord is formed by enclosing a set of pitches between `<` and `>`. Chords may be followed by durations, dynamics, articulation just like ordinary notes.
 ```
@@ -304,7 +306,7 @@ Study this next example carefully.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566722704032530432/lily.png)  
 
-### Repeats
+## Repeats
 
 Repeats are one of the most powerful constructs in LilyPond, allowing much music to be written over and over
 
@@ -400,3 +402,4 @@ Like almost everything else in LilyPond, repeats can be nested.
 ```
 \relative { \repeat percent 3 { \repeat unfold 4 { c''8 d } } }
 ```
+![](https://cdn.discordapp.com/attachments/563226315386257408/566941284384636959/lily.png)
