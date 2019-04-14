@@ -1,5 +1,3 @@
-## Introduction
-
 ## What is LilyPond?
 
 LilyPond is a highly sophisticated music engraver that uses plain text input to produce music scores. It's like LaTeX for music.
@@ -20,8 +18,6 @@ Lily is a simple yet powerful Discord bot for producing neat musical snippets in
 ## Who is this guide for?
 
 This guide is tailored to new users of LilyPond and users of the Lily Discord bot. Although thorough, it doesn't cover everything, particularly as far as specialist instrument notation is concerned, and topics such as page formatting, styles and tweaks are ignored. For help with anything specific, Google and the LilyPond documentation are your best friends.
-
-# The guide
 
 ## Basic syntax
 
@@ -120,7 +116,7 @@ Quarter notes are indicated by a `4`, eighth notes by an `8` and so on. Breves h
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566672557626097715/lily.png)  
 
-Notes without a specified duration will take the duration of the previous note.
+Notes without a specified duration take the duration of the previous note.
 ```
 \relative { c'8 e g c b16 a g f e4 }
 ```
@@ -134,13 +130,13 @@ Dots are expressed with one or more `.`s placed after the note duration.
 
 Ties are written with a `~` after the note.
 ```
-\relative { fis'4~ fis16 ees'8.~ ees8 d16 c g4 }
+\relative { c''~ c8 fis,8~ fis16 ees'8.~ ees8 b }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566639608067129346/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566990374816448513/lily.png)  
 
 ## Tuplets and grace notes
 
-Triplets and other tuplets can be entered using the syntax `\tuplet %fraction% { %music% }`.
+Triplets and other tuplets can be entered using the syntax <code>\tuplet <em>a/b</em> { <em>music</em> }</code>.
 ```
 \relative { a'2 \tuplet 3/2 { b4 b b }
             c \tuplet 5/4 { b8 a g fis e } a2 }
@@ -161,13 +157,13 @@ Grace notes are indicated using the `\grace` command. Connoisseurs can choose fr
 
 ## Time signatures
 
-Time signatures are indicated with the `\time %fraction%` syntax. By default, LilyPond uses `4/4`.
+Time signatures are indicated with the <code>\time <em>a/b</em></code> syntax. By default, LilyPond uses `4/4`.
 ```
 \relative { \time 3/8 c''8 b a \time 5/4 g4 f e d c }
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566632044566937620/lily.png)  
 
-Pickup bars or *anacruses* are specified with the `\partial %duration%` command.
+Pickup bars or *anacruses* are specified with the <code>\partial <em>duration</em></code> command.
 ```
 \relative { \time 6/8 \partial 8 c' f g a bes a g }
 ```
@@ -181,7 +177,7 @@ Irregular beat grouping can be indicated with the following syntax:
 
 ## Key signatures
 
-Key signatures are indicated with the `\key %note% \%key%` syntax. By default, LilyPond uses C major.
+Key signatures are indicated with the <code>\key <em>note</em> \\<em>mode</em></code> syntax. By default, LilyPond uses C major.
 ```
 \relative { \key b \minor b cis d e \key bes \major f g a bes }
 ```
@@ -195,7 +191,7 @@ Modes can also be used as keys.
 
 ## Clefs  
 
-Clefs are indicated with the `\clef %clefname%` syntax. The clef names can optionally be surrounded by `"`s. By default, LilyPond uses treble clef.
+Clefs are indicated with the <code>\clef <em>clefname</em></code> syntax. The clef names can optionally be surrounded by `"`s. By default, LilyPond uses treble clef.
 ```
 \relative { \clef bass d e g c \clef "tenor" d e g a }
 ```
@@ -217,7 +213,7 @@ Rests are indicated by an `r`. *Spacer* rests indicated by an `s` are invisible.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566584095279284224/lily.png)  
 
-Use a capital `R` to enter full bar rests. It's usually easiest to write `R1*time signature*number of empty bars`.
+Use a capital `R` to enter full bar rests. It's usually easiest to write <code>R1*<em>(time-signature)</em>*<em>(no-of-empty-bars)</em></code>.
 ```
 { \time 3/4 R1. \time 5/4 R1*5/4*3 }
 ```
@@ -239,7 +235,7 @@ Slurs cannot be nested, although *phrasing slurs* `\(` `\)` can be used to provi
 
 ## Dynamics and articulation
 
-Most articulation and dynamics use the `note\%indication%` syntax. All dynamics are attached to notes.
+Most articulation and dynamics use the <code><em>note</em>\\<em>indication</em></code> syntax. All dynamics are attached to notes.
 Dynamics are given with indications like `\mp` and `\ff`:
 ```
 \relative { c'2\pp d\mf e\sfz f\fff }
@@ -310,7 +306,7 @@ Study this next example carefully.
 
 Repeats are one of the most powerful constructs in LilyPond, allowing much music to be written over and over
 
-Repeats in LilyPond follow this syntax: `\repeat %keyword% %no. of repeats% %music expression%`.
+Repeats in LilyPond follow this syntax: <code>\repeat <em>keyword</em> <em>(no-of-times)</em> { <em>music</em> }</code>.
 
 The `unfold` keyword writes out repeats in full.
 ```
@@ -330,7 +326,7 @@ The `volta` keyword writes repeats using the familiar repeat signs.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566930384927981572/lily.png)
 
-Alternative endings are written with the `\alternative { }` syntax. Each alternative ending must have its own pair of `{}`s.
+Alternative endings are written with the <code>\alternative { <em>music</em> }</code> syntax. Each alternative ending must have its own pair of `{}`s.
 ```
 \relative { \repeat volta 2 { c'' c g' g }
             \alternative {
@@ -368,10 +364,7 @@ Alternative endings can be used with `unfold` too. In general, switching `unfold
 As before, repeats and alternatives can be as long or short as desired. Note that notes at the start of an alternative ending inherit their duration and octave from the last note of the previous alternative:
 ```
 \relative { \repeat unfold 2 { g'16 f e d c g' }
-            \alternative {
-              { a f }
-              { c' b }
-            }
+            \alternative { { a f } { c' b } }
           }
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566933512058437633/lily.png)  
@@ -392,7 +385,7 @@ There are two other, less common repeat keywords: `percent` and `tremolo`. `perc
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566936666552533002/lily.png)  
 
-Tremolos on a single note can be obtained either by applying `\repeat tremolo` to a single note or by using the `note:N` syntax, where `N` must be at least 8.
+Tremolos on a single note can be obtained either by applying `\repeat tremolo` to a single note or by using the <code><em>note</em>:<em>N</em></code> syntax, where `N` must be at least 8.
 ```
 \relative { \repeat tremolo 16 { c''32 } d4:16 e8:16 f8:16 g1:32 }
 ```
