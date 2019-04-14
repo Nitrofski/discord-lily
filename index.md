@@ -1,3 +1,3 @@
 # Lily
 
-- [LilyPond Cheatsheet](cheatsheet.md)
+- [LilyPond Guide](guide.md)
