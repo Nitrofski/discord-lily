@@ -2,11 +2,10 @@
 
 LilyPond is a highly sophisticated music engraver that uses plain text input to produce music scores. It's like LaTeX for music.
 ```
-\relative c' {
-    \key d \minor
-    \time 3/4
-    bes8 d'32( c bes c bes a bes a g a g f g a bes c d16) bes,
-    a32 a'( b cis d16) a, g32 a'( b cis d16) g,, a32 d'( cis b cis16) g
+\relative {
+    \key d \minor \time 3/4
+    bes8 d'32( c bes c bes a bes a g a g f g a bes c d16) bes=
+    a32 a'( b cis d16) a= g32 a'( b cis d16) g= a32 d'( cis b cis16) g
 }
 ```
 ![](https://cdn.discordapp.com/attachments/559837241170460692/566712878606974998/lily.png)
@@ -21,7 +20,7 @@ This guide is tailored to new users of LilyPond and users of the Lily Discord bo
 
 ## Basic syntax
 
-Every piece of LilyPond input must have `{` curly braces `}` placed around the input. These braces tell LilyPond that the input is a single music *expression*, just like parentheses () in mathematics. The braces should be surrounded by a space unless they are at the beginning or end of a line to avoid ambiguities.
+Every piece of LilyPond input must have `{` curly braces `}` placed around the input. These braces tell LilyPond that the input is a single music *expression*, just like parentheses `()` in mathematics. The braces should be surrounded by a space unless they are at the beginning or end of a line to avoid ambiguities.
 ```
 { c d e f g a b c } % NOT c d e f g a b c
 ```
@@ -82,6 +81,12 @@ A more complicated example:
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566392306094047253/lily.png)  
 
+Since entering relative music can be error-prone, LilyPond provides an octave-check command via the <code><em>note</em>=<em>octave</em></code> syntax, where the octave is specified in `'`s or `,`s.
+```
+\relative { c' c' e=' g= d'' d, e e=''' }
+```
+![](https://cdn.discordapp.com/attachments/563226315386257408/567666588673769473/lily.png)
+
 ## Accidentals
 
 Sharps and flats are indicated by `is` and `es` respectively.
@@ -120,7 +125,9 @@ Notes without a specified duration take the duration of the previous note.
 ```
 \relative { c'8 e g c b16 a g f e4 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566672914934661120/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566672914934661120/lily.png)
+
+## Dots and ties  
 
 Dots are expressed with one or more `.`s placed after the note duration.
 ```
@@ -134,7 +141,7 @@ Ties are written with a `~` after the note.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566990374816448513/lily.png)  
 
-## Tuplets and grace notes
+## Tuplets
 
 Triplets and other tuplets can be entered using the syntax <code>\tuplet <em>a/b</em> { <em>music</em> }</code>.
 ```
@@ -148,6 +155,8 @@ To make entering multiple tuplets easier, you can specify the length of a single
 \relative { \tuplet 3/2 4 { c'8 d e f16 g a8 b c4 g8 } c,4 }
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566716752478732304/lily.png)  
+
+## Grace notes
 
 Grace notes are indicated using the `\grace` command. Connoisseurs can choose from `\acciaccatura`, `\appoggiatura` and `\slashedGrace`.
 ```
@@ -233,10 +242,9 @@ Slurs cannot be nested, although *phrasing slurs* `\(` `\)` can be used to provi
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566581120796327938/lily.png)  
 
-## Dynamics and articulation
+## Dynamics
 
-Most articulation and dynamics use the <code><em>note</em>\\<em>indication</em></code> syntax. All dynamics are attached to notes.
-Dynamics are given with indications like `\mp` and `\ff`:
+Dynamics are given with indications like `\mp` and `\ff`. All dynamics are attached to specific notes.
 ```
 \relative { c'2\pp d\mf e\sfz f\fff }
 ```
@@ -256,7 +264,9 @@ Text crescendos and diminuendos are given by `\cresc` and `\decresc`.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566636261075582986/lily.png)  
 
-Articulations and ornamentation are given with indications like `\accent` and `\marcato`:
+## Articulation and ornaments
+
+Articulation and ornaments are given with indications like `\accent` and `\marcato`:
 ```
 \relative { c''4\staccato c\mordent b2\turn c1\fermata }
 ```
@@ -268,7 +278,7 @@ Articulations and ornamentation are given with indications like `\accent` and `\
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566636584456159242/lily.png)  
 
-A full list of articulations and ornaments can be found [here](http://lilypond.org/doc/v2.18/Documentation/notation/list-of-articulations).
+A full list of articulation and ornaments can be found [here](http://lilypond.org/doc/v2.18/Documentation/notation/list-of-articulations).
 
 ## Chords
 
@@ -304,7 +314,7 @@ Study this next example carefully.
 
 ## Repeats
 
-Repeats are one of the most powerful constructs in LilyPond, allowing much music to be written over and over
+Repeats are one of the most powerful constructs in LilyPond, greatly simplifying the process of writing repetitive music.
 
 Repeats in LilyPond follow this syntax: <code>\repeat <em>keyword</em> <em>(no-of-times)</em> { <em>music</em> }</code>.
 
@@ -314,7 +324,7 @@ The `unfold` keyword writes out repeats in full.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566929978751582261/lily.png)  
 
-Repeats can be of any length. Very short repeats are particularly convenient for entering repetitive music.
+Repeats can be of any length. Very short repeats are particularly useful for repetitive music.
 ```
 \relative { \repeat unfold 4 { c''16 d } \repeat unfold 4 { e d } }
 ```
@@ -361,12 +371,19 @@ Alternative endings can be used with `unfold` too. In general, switching `unfold
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566932706563194880/lily.png)  
 
-As before, repeats and alternatives can be as long or short as desired. Note that notes at the start of an alternative ending inherit their duration and octave from the last note of the previous alternative:
+As before, repeats and alternatives can be as long or short as desired. Note that notes at the start of an alternative ending inherit their duration and octave from the last note of the previous alternative. Since this can be unpredictable, it's often better to use an octave check at the start of new, long alternatives.
 ```
 \relative { \repeat unfold 2 { g'16 f e d c g' }
-            \alternative { { a f } { c' b } }
+            \alternative { { a f } { c='' b } }
           }
 ```
+
+Volta repeats can occur in the middle of a bar.
+```
+\relative { \partial 4 \repeat volta 2 { f'' e d c b a g f } f' e d g e d1 }
+```
+![](https://cdn.discordapp.com/attachments/563226315386257408/567738521259999234/lily.png)
+
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566933512058437633/lily.png)  
 
 There are two other, less common repeat keywords: `percent` and `tremolo`. `percent` refers to the slashed repeat signs used in some kinds of music to denote repetitions:
@@ -396,3 +413,23 @@ Like almost everything else in LilyPond, repeats can be nested.
 \relative { \repeat percent 3 { \repeat unfold 4 { c''8 d } } }
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566941284384636959/lily.png)
+
+## Barlines
+
+Ordinary barlines are printed automatically wherever they ought to be.
+```
+\relative { c' d e f g a b c }
+```
+![](https://cdn.discordapp.com/attachments/563226315386257408/567732110354284545/lily.png)  
+
+Different styles of barline can be printed using the `\bar` command. These barlines are purely visual and don't affect note durations, bar numbers or anything of that sort.
+```
+\relative { c'1 \bar "|" d \bar "||" e \bar "!" f \bar "|." }
+```
+![](https://cdn.discordapp.com/attachments/563226315386257408/567733143751360523/lily.png)  
+
+Manual barlines can be printed anywhere within a bar. If they coincide with an ordinary barline, they replace it.
+```
+\relative { \time 5/4 g' a8 b c4 \bar "!" d e \bar "||" f2~ f2. }
+```
+![](https://cdn.discordapp.com/attachments/563226315386257408/567736458614407179/lily.png)
