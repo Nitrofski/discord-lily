@@ -1,3 +1,7 @@
+---
+title: LilyPond Guide
+---
+
 ## What is LilyPond?
 
 LilyPond is a highly sophisticated music engraver that uses plain text input to produce music scores. It's like LaTeX for music.
@@ -49,37 +53,37 @@ By default, LilyPond uses *absolute* note input, where the note names `c` to `b`
 ```
 { \clef bass c d e f g a b c d e f g }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566870873341034496/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566870873341034496/lily.png)
 
 Higher octaves are indicated with `'`s and lower octaves with `,`s.
 ```
 { \clef bass c, b, c b \clef treble c' b' c'' b'' }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566680236532432925/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566680236532432925/lily.png)
 
 Since writing things such as `a''''` and `c,,` quickly becomes tedious, LilyPond offers a more practical alternative, *relative* note input, which will be used for the rest of this tutorial. To input music in relative mode, place `\relative` before the music expression like below.
 ```
 \relative { g' a b c d e f g }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566715809871822849/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566715809871822849/lily.png)
 
 The first note of a relative block is specified as in absolute mode, and every other note is the closest neighbour to the previous one by default.
 ```
 \relative { c'' d c e c f c g c a c b }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566690662968459274/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566690662968459274/lily.png)
 
 To input intervals of more than a fourth, use `'`s and `,`s.
 ```
 \relative { c' d c e c f c g' c, a' c, b' }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566694470955827201/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566694470955827201/lily.png)
 
 A more complicated example:
 ```
 \relative { c' c' e, g, d'' d, e e'' }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566392306094047253/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566392306094047253/lily.png)
 
 Since entering relative music can be error-prone, LilyPond provides an octave-check command via the <code><em>note</em>=<em>octave</em></code> syntax, where the octave is specified in `'`s or `,`s.
 ```
@@ -93,25 +97,25 @@ Sharps and flats are indicated by `is` and `es` respectively.
 ```
 \relative { c' cis fis bes ees, eeses gis fisis }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566699464828649512/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566699464828649512/lily.png)
 
 Accidentals must be specified for every note; F-natural is always written `f` and F-sharp always as `fis`. (If you're wondering why, think about it this way: the user indicates the *semantic* content of the music, and LilyPond handles the display of accidentals automatically based on previous notes and the key signature.)
 ```
 \relative { f' f fis fis fis f f fis }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566699581350477864/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566699581350477864/lily.png)
 
 Accidentals are ignored in the “closest neighbour” logic used in relative mode.
 ```
 \relative { c'' fis c ges c ges' c, fis, }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566704025018433576/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566704025018433576/lily.png)
 
 To force accidentals to be displayed, use `!` or `?`. (Although it's better just to let LilyPond handle things automatically.)
 ```
 \relative { c'' c c! c? cis cis cis! cis? }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566704385091174410/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566704385091174410/lily.png)
 
 ## Note durations
 
@@ -119,7 +123,7 @@ Quarter notes are indicated by a `4`, eighth notes by an `8` and so on. Breves h
 ```
 \relative { \time 4/2 c'\breve d1 e2 f4 g8 a16 b32 c64 d }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566672557626097715/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566672557626097715/lily.png)
 
 Notes without a specified duration take the duration of the previous note.
 ```
@@ -127,19 +131,19 @@ Notes without a specified duration take the duration of the previous note.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566672914934661120/lily.png)
 
-## Dots and ties  
+## Dots and ties
 
 Dots are expressed with one or more `.`s placed after the note duration.
 ```
 \relative { c'4. d8 e8.. f32 g8. a32 b c4 c2. c,4 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566639492165795851/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566639492165795851/lily.png)
 
 Ties are written with a `~` after the note.
 ```
 \relative { c''~ c8 fis,8~ fis16 ees'8.~ ees8 b }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566990374816448513/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566990374816448513/lily.png)
 
 ## Tuplets
 
@@ -148,13 +152,13 @@ Triplets and other tuplets can be entered using the syntax <code>\tuplet <em>a/b
 \relative { a'2 \tuplet 3/2 { b4 b b }
             c \tuplet 5/4 { b8 a g fis e } a2 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566640828303540224/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566640828303540224/lily.png)
 
 To make entering multiple tuplets easier, you can specify the length of a single tuplet to group multiple tuplets automatically.
 ```
 \relative { \tuplet 3/2 4 { c'8 d e f16 g a8 b c4 g8 } c,4 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566716752478732304/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566716752478732304/lily.png)
 
 ## Grace notes
 
@@ -162,7 +166,7 @@ Grace notes are indicated using the `\grace` command. Connoisseurs can choose fr
 ```
 \relative { c' \acciaccatura { d8 } c4 \grace { f32( e d } c2) }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566654574434320385/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566654574434320385/lily.png)
 
 ## Time signatures
 
@@ -170,19 +174,19 @@ Time signatures are indicated with the <code>\time <em>a/b</em></code> syntax. B
 ```
 \relative { \time 3/8 c''8 b a \time 5/4 g4 f e d c }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566632044566937620/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566632044566937620/lily.png)
 
 Pickup bars or *anacruses* are specified with the <code>\partial <em>duration</em></code> command.
 ```
 \relative { \time 6/8 \partial 8 c' f g a bes a g }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566632623401730068/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566632623401730068/lily.png)
 
 Irregular beat grouping can be indicated with the following syntax:
 ```
 \relative { \time #'(2 2 3) 7/8 e''8 d e g, a d c }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566632824350965760/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566632824350965760/lily.png)
 
 ## Key signatures
 
@@ -190,7 +194,7 @@ Key signatures are indicated with the <code>\key <em>note</em> \\<em>mode</em></
 ```
 \relative { \key b \minor b cis d e \key bes \major f g a bes }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566634245381029910/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566634245381029910/lily.png)
 
 Modes can also be used as keys.
 ```
@@ -198,19 +202,19 @@ Modes can also be used as keys.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/566634504748531712/lily.png)
 
-## Clefs  
+## Clefs
 
 Clefs are indicated with the <code>\clef <em>clefname</em></code> syntax. The clef names can optionally be surrounded by `"`s. By default, LilyPond uses treble clef.
 ```
 \relative { \clef bass d e g c \clef "tenor" d e g a }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566676754018730046/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566676754018730046/lily.png)
 
 Octave clefs can be specified. Because of the `_` and `^` symbols used, `"`s around the clef name are required. Note that notes are entered in concert pitch.
 ```
 \relative { \clef "treble^15" e''' a d g c \clef "bass_8" e,,,,,, d g, }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566677062958710784/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566677062958710784/lily.png)
 
 A list of clef styles can be found [here](http://lilypond.org/doc/v2.19/Documentation/notation/clef-styles).
 
@@ -220,13 +224,13 @@ Rests are indicated by an `r`. *Spacer* rests indicated by an `s` are invisible.
 ```
 \relative { r2 r4 c'' r r8 r s4 r }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566584095279284224/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566584095279284224/lily.png)
 
 Use a capital `R` to enter full bar rests. It's usually easiest to write <code>R1*<em>(time-signature)</em>*<em>(no-of-empty-bars)</em></code>.
 ```
 { \time 3/4 R1. \time 5/4 R1*5/4*3 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566580763617656843/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566580763617656843/lily.png)
 
 ## Slurs
 
@@ -234,13 +238,13 @@ Slurs are indicated with `()`s. Don't forget to close any slurs you open.
 ```
 \relative { c'8( d e4~ e16 f g8) c4 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566580902411632650/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566580902411632650/lily.png)
 
 Slurs cannot be nested, although *phrasing slurs* `\(` `\)` can be used to provide two tiers of slur.
 ```
 \relative { c'\( d( e) f\) }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566581120796327938/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566581120796327938/lily.png)
 
 ## Dynamics
 
@@ -248,7 +252,7 @@ Dynamics are given with indications like `\mp` and `\ff`. All dynamics are attac
 ```
 \relative { c'2\pp d\mf e\sfz f\fff }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566635997308125235/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566635997308125235/lily.png)
 
 By default, LilyPond has commands for `\ppppp` to `\fffff`, as well as `\fp`, `\sf`, `\sff`, `\sp`, `\spp`, `\sfz`, and `\rfz`.
 
@@ -256,13 +260,13 @@ Crescendos and diminuendo hairpins are started with `\<` and `\>`. They terminat
 ```
 \relative { c'\< d e f\ff c\> d e\< f c d e\! f }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566636135351189507/lily.png)    
+![](https://cdn.discordapp.com/attachments/563226315386257408/566636135351189507/lily.png)
 
 Text crescendos and diminuendos are given by `\cresc` and `\decresc`.
 ```
 \relative { c'8\p\cresc d e f g a b c b\decresc a g f e d c4\pp }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566636261075582986/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566636261075582986/lily.png)
 
 ## Articulation and ornaments
 
@@ -270,13 +274,13 @@ Articulation and ornaments are given with indications like `\accent` and `\marca
 ```
 \relative { c''4\staccato c\mordent b2\turn c1\fermata }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566636430768603139/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566636430768603139/lily.png)
 
 `\staccato`, `\accent`, `\tenuto`, `\staccatissimo`, `\marcato`, `\portato` and `\stopped` have fairly predictable predefined shortcuts:
 ```
 \relative { c''-. c-> c-- c-! c-^ c-_ c2-+ }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566636584456159242/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566636584456159242/lily.png)
 
 A full list of articulation and ornaments can be found [here](http://lilypond.org/doc/v2.18/Documentation/notation/list-of-articulations).
 
@@ -286,31 +290,31 @@ A chord is formed by enclosing a set of pitches between `<` and `>`. Chords may 
 ```
 \relative { c' <c e g> <e g c>2-> <g c e>4.(\f <f a d>8 <e g c>2) }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566719702429073428/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566719702429073428/lily.png)
 
 To repeat the previous chord, use `q`. It works even if non-chorded notes or rests have been used after the last chord entered.
 ```
 \relative { c' <e g c> q q c'' r q q }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566724537916456964/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566724537916456964/lily.png)
 
 Some constructs like ties and articulation can also be attached to individual notes within chords.
 ```
 \relative { c'8 <c e~> e16 f g8 <f-+ a-+>~ q8. r16 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566721605338660878/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566721605338660878/lily.png)
 
 In relative mode, the first note in a chord takes its octave from the music before it, the other notes within a chord take their octave from the previous note *within* the chord, and notes after a chord take their octave from the *first* note of the previous chord.
 ```
 \relative { <c'' e g> <c, g' b'> <d f c'> <a' f' c'> }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566925328329736192/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566925328329736192/lily.png)
 
 Study this next example carefully.
 ```
 \relative { c' <c e g> <c' e g'> <c, e, g''> }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566722704032530432/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566722704032530432/lily.png)
 
 ## Repeats
 
@@ -322,13 +326,13 @@ The `unfold` keyword writes out repeats in full.
 ```
 \relative { \repeat unfold 2 { c'' c g' g a a g2 } }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566929978751582261/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566929978751582261/lily.png)
 
 Repeats can be of any length. Very short repeats are particularly useful for repetitive music.
 ```
 \relative { \repeat unfold 4 { c''16 d } \repeat unfold 4 { e d } }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566929414097600513/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566929414097600513/lily.png)
 
 The `volta` keyword writes repeats using the familiar repeat signs.
 ```
@@ -357,7 +361,7 @@ There's no limit on the number of alternative endings. If there are more repeats
             } f4 f e e
           }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566932187782316033/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566932187782316033/lily.png)
 
 Alternative endings can be used with `unfold` too. In general, switching `unfold` for `volta` will produce the same music except written out in full.
 ```
@@ -369,7 +373,7 @@ Alternative endings can be used with `unfold` too. In general, switching `unfold
             } f4 f e e
           }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566932706563194880/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566932706563194880/lily.png)
 
 As before, repeats and alternatives can be as long or short as desired. Note that notes at the start of an alternative ending inherit their duration and octave from the last note of the previous alternative. Since this can be unpredictable, it's often better to use an octave check at the start of new, long alternatives.
 ```
@@ -384,29 +388,29 @@ Volta repeats can occur in the middle of a bar.
 ```
 ![](https://cdn.discordapp.com/attachments/563226315386257408/567738521259999234/lily.png)
 
-![](https://cdn.discordapp.com/attachments/563226315386257408/566933512058437633/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566933512058437633/lily.png)
 
 There are two other, less common repeat keywords: `percent` and `tremolo`. `percent` refers to the slashed repeat signs used in some kinds of music to denote repetitions:
 ```
 \relative { \repeat percent 4 { c''8 d } \repeat percent 4 { c16 d e f } }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566935318020882444/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566935318020882444/lily.png)
 ```
 \relative { \repeat percent 3 { c'' d e f } \repeat percent 2 { c2 d e f } }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566935762038161418/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566935762038161418/lily.png)
 
 `tremolo` is used for tremolos.
 ```
 \relative { \repeat tremolo 6 { c''16 e } \repeat tremolo 4 { b32 d } }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566936666552533002/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566936666552533002/lily.png)
 
 Tremolos on a single note can be obtained either by applying `\repeat tremolo` to a single note or by using the <code><em>note</em>:<em>N</em></code> syntax, where `N` must be at least 8.
 ```
 \relative { \repeat tremolo 16 { c''32 } d4:16 e8:16 f8:16 g1:32 }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/566938424586797066/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/566938424586797066/lily.png)
 
 Like almost everything else in LilyPond, repeats can be nested.
 ```
@@ -420,13 +424,13 @@ Ordinary barlines are printed automatically wherever they ought to be.
 ```
 \relative { c' d e f g a b c }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/567732110354284545/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/567732110354284545/lily.png)
 
 Different styles of barline can be printed using the `\bar` command. These barlines are purely visual and don't affect note durations, bar numbers or anything of that sort.
 ```
 \relative { c'1 \bar "|" d \bar "||" e \bar "!" f \bar "|." }
 ```
-![](https://cdn.discordapp.com/attachments/563226315386257408/567733143751360523/lily.png)  
+![](https://cdn.discordapp.com/attachments/563226315386257408/567733143751360523/lily.png)
 
 Manual barlines can be printed anywhere within a bar. If they coincide with an ordinary barline, they replace it.
 ```
