@@ -125,7 +125,9 @@ async function _processLilyInput (msg, data, handleReply) {
  * @param {HandleReplyCallback} handleReplyCallback
  */
 async function _handleMessage (msg, handleReplyCallback) {
-  if (msg.content.startsWith('\\lily')) {
+  if (/^\\lilylick(\s|$)/.test(msg.content)) {
+    return _processAsSingleInput(msg, "\\relative c' { d8 e f g e4 c8 d~ d1 }", handleReplyCallback)
+  } else if (/^\\lily(\s|$)/.test(msg.content)) {
     // First, look for code blocks
     const processed = await _processCodeBlocks(msg, /(\w+\n)?/, handleReplyCallback)
     // If no code blocks was found, treat the whole message as lily input.

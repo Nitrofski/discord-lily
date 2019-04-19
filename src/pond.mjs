@@ -63,7 +63,9 @@ function _sanitizeLilypondLog (stderr, inputFilename, addedLinesCount) {
   }
 
   // Join all lines and add a final newline.
-  return lines.join(EOL) + EOL
+  return lines.length > 0
+    ? lines.join(EOL) + EOL
+    : '< The LilyPond error log provided no useful information... 😞 >'
 }
 
 export default {
